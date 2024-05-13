@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="humidity">Humidity:</string>
+    <string name="light_detected">Light Detected:</string>
+    <string name="temperature">Temperature:</string>
+    <string name="water_detected">Water Detected:</string>
+</resources>

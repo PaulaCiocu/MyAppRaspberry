@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "977563218901",
+    "firebase_url": "https://rpi-lab-project-default-rtdb.firebaseio.com",
+    "project_id": "rpi-lab-project",
+    "storage_bucket": "rpi-lab-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977563218901:android:daa5848c70830e3c93035c",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzQLgLk4o_G2u1207dlBI8YTIC6xCzamA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
