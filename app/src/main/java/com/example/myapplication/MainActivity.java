@@ -2,6 +2,9 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import com.example.myapplication.R;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,86 +24,92 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private TextView textHumidity, textLightLed, textLightDetected, textTemperature, textWaterDetected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        Log.d(TAG, "Activity created"); // Check if onCreate() is called
+        // Initialize TextViews
+        textHumidity = findViewById(R.id.text_humidity);
+       // textLightLed = findViewById(R.id.text_light_led);
+        textLightDetected = findViewById(R.id.text_light_detected);
+        textTemperature = findViewById(R.id.text_temperature);
+        textWaterDetected = findViewById(R.id.text_water_detected);
 
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference humidity = database.getReference("Humidity");
-        DatabaseReference lightLed = database.getReference("Light_LED");
-        DatabaseReference lightDetected = database.getReference("Light_detected");
-        DatabaseReference temperature = database.getReference("Temp");
-        DatabaseReference waterDetected = database.getReference("Water_detected");
+        DatabaseReference humidityRef = database.getReference("Humidity");
+        DatabaseReference lightLedRef = database.getReference("Light_LED");
+        DatabaseReference lightDetectedRef = database.getReference("Light_detected");
+        DatabaseReference temperatureRef = database.getReference("Temp");
+        DatabaseReference waterDetectedRef = database.getReference("Water_detected");
 
         // Read from the database
-        humidity.addValueEventListener(new ValueEventListener() {
+        humidityRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Humidity: " + dataSnapshot.getValue());
+                String humidityValue = String.valueOf(dataSnapshot.getValue());
+                textHumidity.setText("Humidity: " + humidityValue);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read humidity value.", error.toException());
             }
         });
-        lightLed.addValueEventListener(new ValueEventListener() {
+
+        lightLedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Light LED: " + dataSnapshot.getValue());
+                String lightLedValue = String.valueOf(dataSnapshot.getValue());
+                //textLightLed.setText("Light LED: " + lightLedValue);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read light LED value.", error.toException());
             }
         });
-        lightDetected.addValueEventListener(new ValueEventListener() {
+
+        lightDetectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Light Detected:: " + dataSnapshot.getValue());
+                String lightDetectedValue = String.valueOf(dataSnapshot.getValue());
+                textLightDetected.setText("Light Detected: " + lightDetectedValue);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read light detected value.", error.toException());
             }
         });
-        temperature.addValueEventListener(new ValueEventListener() {
+
+        temperatureRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Temperature: " + dataSnapshot.getValue());
+                String temperatureValue = String.valueOf(dataSnapshot.getValue());
+                textTemperature.setText("Temperature: " + temperatureValue);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read temperature value.", error.toException());
             }
         });
-        waterDetected.addValueEventListener(new ValueEventListener() {
+
+        waterDetectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Water Detected:: " + dataSnapshot.getValue());
+                String waterDetectedValue = String.valueOf(dataSnapshot.getValue());
+                textWaterDetected.setText("Water Detected: " + waterDetectedValue);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.w(TAG, "Failed to read water detected value.", error.toException());
             }
         });
-
-
-
     }
 }
