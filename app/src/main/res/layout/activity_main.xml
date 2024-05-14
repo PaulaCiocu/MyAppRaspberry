@@ -54,6 +54,28 @@
         android:textSize="18sp"
         android:layout_centerHorizontal="true"/>
 
+    <!-- TextView to display Light Detected status -->
+    <TextView
+        android:id="@+id/text_light_led"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_water_detected"
+        android:layout_marginTop="16dp"
+        android:text="Light Detected: "
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/button_toggle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/blue_circle_background"
+        android:contentDescription="Toggle Light LED"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="toggleLightLED" />
+
     <!-- Include BottomNavigationView and NavHostFragment -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

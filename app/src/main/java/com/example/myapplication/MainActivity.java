@@ -3,18 +3,9 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import com.example.myapplication.R;
-
-
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.myapplication.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private TextView textHumidity, textLightLed, textLightDetected, textTemperature, textWaterDetected;
+    private TextView textHumidity, textLightDetected, textLightLed,textTemperature, textWaterDetected;
+    private DatabaseReference lightLedRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize TextViews
         textHumidity = findViewById(R.id.text_humidity);
-       // textLightLed = findViewById(R.id.text_light_led);
+        textLightLed = findViewById(R.id.text_light_led);
         textLightDetected = findViewById(R.id.text_light_detected);
         textTemperature = findViewById(R.id.text_temperature);
         textWaterDetected = findViewById(R.id.text_water_detected);
@@ -41,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference humidityRef = database.getReference("Humidity");
-        DatabaseReference lightLedRef = database.getReference("Light_LED");
+        lightLedRef = database.getReference("Light_LED");
         DatabaseReference lightDetectedRef = database.getReference("Light_detected");
         DatabaseReference temperatureRef = database.getReference("Temp");
         DatabaseReference waterDetectedRef = database.getReference("Water_detected");
@@ -63,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         lightLedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String lightLedValue = String.valueOf(dataSnapshot.getValue());
-                //textLightLed.setText("Light LED: " + lightLedValue);
+                boolean lightLedValue =dataSnapshot.getValue(Boolean.class);
+                textLightLed.setText("Light LED: " + lightLedValue);
             }
 
             @Override
@@ -72,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read light LED value.", error.toException());
             }
         });
+
 
         lightDetectedRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read light detected value.", error.toException());
             }
         });
+
+
 
         temperatureRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -112,4 +108,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void toggleLightLED(View view) {
+        lightLedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean currentLightLedValue = dataSnapshot.getValue(Boolean.class);
+                // Toggle the value (invert boolean)
+                lightLedRef.setValue(!currentLightLedValue);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Failed to read Light_LED value.", error.toException());
+            }
+        });
+    }
+
 }
