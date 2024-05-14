@@ -8,6 +8,7 @@
     android:paddingTop="?attr/actionBarSize"
     tools:context=".MainActivity">
 
+
     <!-- TextView to display Humidity -->
     <TextView
         android:id="@+id/text_humidity"
