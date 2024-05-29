@@ -5,95 +5,144 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize"
+    android:padding="16dp"
+    android:background="@color/cardBackgroundPageColor"
     tools:context=".MainActivity">
 
-
-    <!-- TextView to display Humidity -->
+    <!-- Title -->
     <TextView
-        android:id="@+id/text_humidity"
+        android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Humidity: "
-        android:textSize="18sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="20dp"
+        android:text="Plant Data Status 🌵☘️🌴"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="16dp" />
 
+    <!-- Card Section -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/humidity_card"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/title_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:foregroundGravity="center"
+        app:cardBackgroundColor="@color/cardBackgroundColor"
+        app:cardCornerRadius="8dp">
 
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
 
-    <!-- TextView to display Light Detected status -->
-    <TextView
-        android:id="@+id/text_light_detected"
+            <!-- Humidity Section -->
+            <TextView
+                android:id="@+id/text_humidity_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Air Humidity 💧"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/text_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Humidity: "
+                android:textSize="18sp"
+                android:textColor="@color/colorSecondary" />
+
+            <!-- Light Section -->
+            <TextView
+                android:id="@+id/text_light_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light Detection ☀️"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/text_light_detected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Light Detected: "
+                android:textSize="18sp"
+                android:textColor="@color/colorSecondary" />
+
+            <!-- Temperature Section -->
+            <TextView
+                android:id="@+id/text_temperature_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperature 🌡️"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/text_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Temperature: "
+                android:textSize="18sp"
+                android:textColor="@color/colorSecondary" />
+
+            <!-- Water Section -->
+            <TextView
+                android:id="@+id/text_water_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Soil Humidity 🌱"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/text_water_detected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Water Detected: "
+                android:textSize="18sp"
+                android:textColor="@color/colorSecondary" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Toggle Button with Overlay Text -->
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_humidity"
-        android:layout_marginTop="16dp"
-        android:text="Light Detected: "
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@id/humidity_card"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp">
 
-    <!-- TextView to display Temperature -->
-    <TextView
-        android:id="@+id/text_temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_light_detected"
-        android:layout_marginTop="16dp"
-        android:text="Temperature: "
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"/>
+        <ImageView
+            android:id="@+id/button_toggle"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/blue_circle_background"
+            android:contentDescription="Toggle Light LED"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="toggleLightLED" />
 
-    <!-- TextView to display Water Detected status -->
-    <TextView
-        android:id="@+id/text_water_detected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_temperature"
-        android:layout_marginTop="16dp"
-        android:text="Water Detected: "
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"/>
-
-    <!-- TextView to display Light Detected status -->
-    <TextView
-        android:id="@+id/text_light_led"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_water_detected"
-        android:layout_marginTop="16dp"
-        android:text="Light Detected: "
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"/>
-
-    <ImageView
-        android:id="@+id/button_toggle"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/blue_circle_background"
-        android:contentDescription="Toggle Light LED"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="toggleLightLED" />
-
-    <!-- Include BottomNavigationView and NavHostFragment -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_nav_menu"
-        />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment_activity_main"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@id/nav_view"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation" />
+        <TextView
+            android:id="@+id/led_status_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Off"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </RelativeLayout>

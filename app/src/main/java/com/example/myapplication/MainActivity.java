@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private static final CharSequence CHANNEL_NAME = "My Notification Channel";
     private static final int notificationId = 3;
 
+    private ImageView buttonToggle;
+    private TextView ledStatusText;
+
     private void showInAppNotification(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -48,10 +52,14 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         // Initialize TextViews
         textHumidity = findViewById(R.id.text_humidity);
-        textLightLed = findViewById(R.id.text_light_led);
+        //textLightLed = findViewById(R.id.text_light_led);
         textLightDetected = findViewById(R.id.text_light_detected);
         textTemperature = findViewById(R.id.text_temperature);
         textWaterDetected = findViewById(R.id.text_water_detected);
+
+        buttonToggle = findViewById(R.id.button_toggle);
+        ledStatusText = findViewById(R.id.led_status_text);
+
 
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -78,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
         lightLedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean lightLedValue = dataSnapshot.getValue(Boolean.class);
-                textLightLed.setText("Light LED: " + lightLedValue);
+                Boolean lightLedValue =  dataSnapshot.getValue(Boolean.class);
+               // textLightLed.setText("Light LED: " + lightLedValue);
+                updateLedState(lightLedValue);
             }
 
             @Override
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         lightDetectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String lightDetectedValue = String.valueOf(dataSnapshot.getValue());
+                Boolean lightDetectedValue = dataSnapshot.getValue(Boolean.class);
                 textLightDetected.setText("Light Detected: " + lightDetectedValue);
             }
 
@@ -121,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Double waterDetectedValue = dataSnapshot.getValue(Double.class);
                 textWaterDetected.setText("Water Detected: " + waterDetectedValue);
-                if(waterDetectedValue !=null &&  waterDetectedValue < 1.5 ){
+                if(waterDetectedValue !=null &&  waterDetectedValue < 5 ){
                     Log.w(TAG,"Needs notification");
-                    showInAppNotification("Water level is below 1.5 - Plant needs water");
-                    sendNotification("Water level is below 1.5", "Plant needs water", MainActivity.this);
+                    showInAppNotification("Water level is below 5 - Plant needs water");
+                    sendNotification("Water level is below 5", "Plant needs water", MainActivity.this);
                 }
 
             }
@@ -175,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         lightLedRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean currentLightLedValue = dataSnapshot.getValue(Boolean.class);
+                Boolean currentLightLedValue = dataSnapshot.getValue(Boolean.class);
                 // Toggle the value (invert boolean)
                 lightLedRef.setValue(!currentLightLedValue);
 
@@ -186,6 +195,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read Light_LED value.", error.toException());
             }
         });
+    }
+
+    private void updateLedState(Boolean currentLightLedValue) {
+        if (currentLightLedValue != null && currentLightLedValue) {
+            buttonToggle.setBackgroundResource(R.drawable.blue_circle_background);
+            ledStatusText.setText("Service\nneeded!");
+        } else {
+            buttonToggle.setBackgroundResource(R.drawable.gray_circle_background);
+            ledStatusText.setText("Call\nservice!");
+        }
     }
 
 
